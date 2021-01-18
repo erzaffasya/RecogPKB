@@ -71,6 +71,11 @@
         />
       </template>
 
+      <v-btn  @click="turnOnCamera" :class="{ 'success button is-rounded' : !isCameraOpen, 'red button is-rounded' : isCameraOpen}">
+        <span v-if="!isCameraOpen">Open Camera</span>
+        <span v-else>Close Camera</span>
+      </v-btn>
+
       <!-- Style cascading bug  -->
       <!-- https://github.com/vuetifyjs/vuetify/pull/8574 -->
       <div />

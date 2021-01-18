@@ -37,7 +37,7 @@ def queryToDb(query, value):
         password="",
         database="absensipkb"
 )
-    cursor = connection.cursor()
+    cursor = connection.cursor(buffered = True)
     cursor.execute(query, value)
     connection.commit()
 
@@ -60,7 +60,7 @@ def sudahAbsenPagi(nik_karyawan):
     return sudahAbsen
 
 def terakhirTerlihatNMenitLalu(nik_karyawan):
-    query = "SELECT (DATE_PART('HOUR', NOW() - timestamp) * 60 +DATE_PART('MINUTE', NOW() - timestamp)) AS terakhir_absen FROM kehadiran WHERE nik_karyawan=%s AND date(timestamp)=DATE(NOW()) ORDER BY timestamp DESC LIMIT 1"
+    query = "SELECT (HOUR( NOW() - timestamp) * 60 +MINUTE( NOW() - timestamp)) AS terakhir_absen FROM kehadiran WHERE nik_karyawan=%s AND date(timestamp)=DATE(NOW()) ORDER BY timestamp DESC LIMIT 1"
     value = (nik_karyawan, )
     result = queryToDb(query, value)
     return result > INTERVAL_ABSEN_IN_MINUTE
