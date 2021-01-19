@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 from playsound import playsound
 from gtts import gTTS
 import json
-import os 
+import os
 import shutil
 import cv2
 import attendance_recording_system as aars
@@ -27,7 +27,7 @@ INTERVAL_ABSEN_IN_MINUTE = 1
 #         host="localhost",
 #         user="root",
 #         password="",
-#         database="absensipkb"
+#         database="aars"
 # )
 def queryToDb(query, value):
     # Initialize DB connection
@@ -35,7 +35,7 @@ def queryToDb(query, value):
         host="localhost",
         user="root",
         password="",
-        database="absensipkb"
+        database="aars"
 )
     cursor = connection.cursor(buffered = True)
     cursor.execute(query, value)
@@ -63,7 +63,8 @@ def terakhirTerlihatNMenitLalu(nik_karyawan):
     query = "SELECT (HOUR( NOW() - timestamp) * 60 +MINUTE( NOW() - timestamp)) AS terakhir_absen FROM kehadiran WHERE nik_karyawan=%s AND date(timestamp)=DATE(NOW()) ORDER BY timestamp DESC LIMIT 1"
     value = (nik_karyawan, )
     result = queryToDb(query, value)
-    return result > INTERVAL_ABSEN_IN_MINUTE
+    # return result > INTERVAL_ABSEN_IN_MINUTE
+    return result 
 
 def absen(nik_karyawan, timestamp):
     try:
@@ -75,10 +76,10 @@ def absen(nik_karyawan, timestamp):
         print(f'{nik_karyawan} tidak dikenali')
 
 def getNamaKaryawan(nik):
-    # dapatkan nama, beri salam 
+    # dapatkan nama, beri salam
     query = "SELECT nama FROM karyawan WHERE nik=%s"
     value = (nik, )
-    result = queryToDb(query, value) 
+    result = queryToDb(query, value)
 
     return result
 
@@ -109,7 +110,7 @@ def getAttendanceRecord(date):
         host="localhost",
         user="root",
         password="",
-        database="absensipkb"
+        database="aars"
     )
     value = (date, date)
     cursor = connection.cursor()
@@ -136,7 +137,7 @@ def fetchAttendance():
         host="localhost",
         user="root",
         password="",
-        database="absensipkb"
+        database="aars"
     )
     cursor = connection.cursor()
     cursor.execute(query)
@@ -163,7 +164,7 @@ def fetchEmployee():
         host="localhost",
         user="root",
         password="",
-        database="absensipkb"
+        database="aars"
     )
     cursor = connection.cursor()
     cursor.execute(query)
@@ -194,7 +195,7 @@ def add_employee_upload(nik, nama):
     query = "INSERT INTO karyawan(nik, created_at, nama, active) VALUES(%s, %s, %s, '1')"
     value = (nik, ts, nama)
     queryToDb(query, value)
-    return "success" 
+    return "success"
 
 @app.route('/add_employee/<nik>/<nama>', methods=['GET', 'POST'])
 def add_employee(nik, nama):
@@ -206,7 +207,7 @@ def add_employee(nik, nama):
     queryToDb(query, value)
     # mengopy gambar ke karyawan folder C:\Users\Lenovo\Downloads
     username = getpass.getuser()
-    download_dir = f"C:Users\{username}\Downloads"
+    download_dir = f"C:/Users/{username}/Downloads/"
     # make dir if not exists yet
 
     if nik not in os.listdir(KNOWN_FACES_DIR):
@@ -221,10 +222,10 @@ def add_employee(nik, nama):
             except Exception as e:
                 print(e)
             finally:
-                # remove 
+                # remove
                 print('done')
                 # os.remove(os.path.join(download_dir, f))
-    return "success" 
+    return "success"
 
 @app.route('/turn_on')
 def turnOn():
@@ -235,7 +236,7 @@ def turnOn():
 @app.route('/download_success/<nik>')
 def download_success(nik):
     username = getpass.getuser()
-    download_dir = f"C:/Users/{username}/Downloads"
+    download_dir = f"C:/Users/{username}/Downloads/"
     files = os.listdir(os.path.join(download_dir))
     for f in files:
         if nik in f:
@@ -262,9 +263,9 @@ def remove_employee(nik):
                 shutil.rmtree(os.path.join(KNOWN_FACES_DIR, folder))
     except:
         print("can't remove folder")
-    
+
     return f'successfully removed {nik}'
- 
+
 
 if __name__=='__main__':
     app.run(debug=True)

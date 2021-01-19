@@ -70,14 +70,9 @@
           :item="item"
         />
       </template>
-
-      <v-btn  @click="turnOnCamera" :class="{ 'success button is-rounded' : !isCameraOpen, 'red button is-rounded' : isCameraOpen}">
-        <span v-if="!isCameraOpen">Open Camera</span>
-        <span v-else>Close Camera</span>
+      <v-btn @click="turnOnCamera">
+        ABSEN
       </v-btn>
-
-      <!-- Style cascading bug  -->
-      <!-- https://github.com/vuetifyjs/vuetify/pull/8574 -->
       <div />
     </v-list>
   </v-navigation-drawer>
@@ -104,18 +99,18 @@
       items: [
         {
           icon: 'mdi-view-dashboard',
-          title: 'Attendance List',
-          to: '/attendance-list',
+          title: 'Data Absen',
+          to: '/data-absen',
         },
         {
           icon: 'mdi-account-multiple',
-          title: 'Employee List',
-          to: '/employee',
+          title: 'Data Mahasiswa',
+          to: '/mahasiswa',
         },
         {
           icon: 'mdi-account-plus',
-          title: 'Add Employee',
-          to: '/add-employee',
+          title: 'Tambah Mahasiswa',
+          to: '/tambah-mahasiswa',
         },
         {
           icon: 'mdi-file-excel',
@@ -141,7 +136,7 @@
       profile () {
         return {
           avatar: true,
-          title: 'AARS v1.1',
+          title: 'ABSENSI',
         }
       },
     },

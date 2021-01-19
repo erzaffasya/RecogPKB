@@ -2,14 +2,14 @@
 <template>
   <v-container id="attd-list" fluid tag="section">
     <v-row justify="center">
-      <v-col 
+      <v-col
         cols="12"
         md="12">
         <base-material-card
           icon="mdi-account-plus"
-          title="Create Attendance Report"
+          title="Download Laporan Absensi"
           class="px-5 py-3"
-        > 
+        >
           <v-form>
             <v-container class="py-0">
                 <v-row justify="center">
@@ -73,10 +73,10 @@
           list: [],
         },
         fields: {
-          'ID Karyawan': 'id_karyawan',
-          'Nama Karyawan': 'nama',
-          'Jam Datang': 'datang',
-          'Jam Pulang': 'pulang',
+          'NIM Mahasiswa': 'id_karyawan',
+          'Nama Mahasiswa': 'nama',
+          'Absen': 'datang',
+          // 'Jam Pulang': 'pulang',
         },
       }
     },

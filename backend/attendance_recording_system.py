@@ -1,5 +1,5 @@
 import face_recognition
-import os 
+import os
 import cv2
 import random
 import numpy as np
@@ -25,9 +25,9 @@ def check_and_forget(url):
 def turnOn():
     global AARS_ON
     AARS_ON = True
-    
+
     cwd = os.getcwd()
-    
+
     TOLERANCE = 0.2
     FRAME_THICKNESS = 1
     FONT_THICKNESS = 2
@@ -52,7 +52,7 @@ def turnOn():
                     known_face_niks.append(nik)
                 except:
                     pass
-            pbar.update(1)    
+            pbar.update(1)
 
     # Initialize some variables
     face_locations = []
@@ -64,7 +64,7 @@ def turnOn():
         # if len(known_face_encodings) == 0:
         #     print("0")
         #     break
-        
+
         # Grab a single frame of video
         ret, frame = video_capture.read()
 
@@ -93,7 +93,7 @@ def turnOn():
                     best_match_index = np.argmin(face_distances)
                     if matches[best_match_index]:
                         nik = known_face_niks[best_match_index]
-                        
+
                 # Wajah dikenali
                 if nik != "Unknown":
                     # Hey I Know You !
@@ -126,7 +126,7 @@ def turnOn():
             cv2.putText(frame, nik, (left + 6, bottom - 6), font, 0.5, (255, 255, 255), 1)
 
         # Display the resulting image
-        cv2.imshow("AARS | click video and press 'q' to stop", frame)
+        cv2.imshow("ABSENSIPKB | click video and press 'q' to stop", frame)
 
         # Hit 'q' on the keyboard to quit!
         if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -145,7 +145,7 @@ def turnOff():
     return 'turning off aars'
 
 def camera_is_being_used():
-    cap = cv2.VideoCapture(0) 
+    cap = cv2.VideoCapture(0)
     if cap is None or not cap.isOpened():
         return 'Warning: unable to open video'
     else:
